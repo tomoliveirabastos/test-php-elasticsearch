@@ -53,8 +53,8 @@ class ElasticService
             'index' => $this->currentIndex,
             'body'  => [
                 'query' => [
-                    'match' => [
-                        'testField' => $text
+                    'match_phrase' => [
+                        'testField' => "{$text}"
                     ]
                 ]
             ]
