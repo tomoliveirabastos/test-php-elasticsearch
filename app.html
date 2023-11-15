@@ -1,0 +1,67 @@
+<h1>Upload de arquivo</h1>
+<form action="/upload" method='POST' enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="hidden" name="type" value="newIndex" />
+    <button type="submit">Upload</button>
+</form>
+
+<h1>Pesquisar pelo conteudo do arquivo</h1>
+<input type="text" id="texto">
+
+<br>
+<br>
+
+<div id="list" style="overflow: auto; height: 150px"></div>
+<div id="textDiv"></div>
+<script>
+    let controller
+    let lastJson
+    document.querySelector('#texto').addEventListener('input', e => {
+
+        if (controller) {
+            controller.abort()
+        }
+
+        controller = new AbortController()
+
+        fetch('/findByText', {
+            method: 'POST',
+            signal: controller.signal,
+            body: JSON.stringify({
+                "texto": e.target.value
+            })
+        }).then(res => {
+
+            if (res.ok) {
+
+                res.json().then(json => {
+                    lastJson = json
+                    buildElem(lastJson)
+                })
+            }
+        })
+    })
+
+    function findContent(id) {
+        fetch('/findId/' + id, {
+            method: 'GET'
+        }).then(res => {
+
+            if (res.ok) {
+                res.json().then(json => {
+                    document.querySelector('#textDiv').innerText = json['_source']['testField']
+                })
+            }
+        })
+    }
+
+    function buildElem(json) {
+        if (json['hits']["hits"].length > 0) {
+            document.querySelector('#list').innerHTML = json['hits']["hits"].map(a => {
+                return `<div>${a['_id']} - <a href="#" onclick="findContent('${a['_id']}')">ver conteudo</a></div><br>`
+            }).join('')
+        } else {
+            document.querySelector('#list').innerHTML = ""
+        }
+    }
+</script>

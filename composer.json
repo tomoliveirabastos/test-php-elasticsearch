@@ -1,0 +1,25 @@
+{
+    "name": "tom/elastic-php",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tom Oliveira",
+            "email": "washington-kd@hotmail.com"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.11",
+        "phpoffice/phpword": "^1.1",
+        "smalot/pdfparser": "^2.7",
+        "pecee/simple-router": "5.3.0.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
