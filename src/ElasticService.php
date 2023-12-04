@@ -39,7 +39,10 @@ class ElasticService
         $params = [
             'index' => $this->currentIndex,
             'id'    => $id,
-            'body'  => ['testField' => $text]
+            'body'  => [
+                'testField' => $text,
+                "contrato_id" => uniqid()
+            ]
         ];
 
         return $this->getClient()->index($params);
@@ -53,8 +56,8 @@ class ElasticService
             'index' => $this->currentIndex,
             'body'  => [
                 'query' => [
-                    'match_phrase' => [
-                        'testField' => "{$text}"
+                    'match_phrase_prefix' => [
+                        'testField' => $text,
                     ]
                 ]
             ]

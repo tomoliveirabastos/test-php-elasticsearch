@@ -10,7 +10,7 @@ use Smalot\PdfParser\Parser;
 SimpleRouter::post('/findByText', function () {
     $json = json_decode(file_get_contents("php://input"), true);
     $elasticService = new ElasticService();
-    
+
     $j = $elasticService->getSearch($json['texto']);
 
     header("Content-Type: application/json");
@@ -19,8 +19,7 @@ SimpleRouter::post('/findByText', function () {
     return $j;
 });
 
-
-SimpleRouter::get('/findId/{textId}', function($testId) {
+SimpleRouter::get('/findId/{textId}', function ($testId) {
     $elasticService = new ElasticService();
 
     $res = $elasticService->getById($testId);
